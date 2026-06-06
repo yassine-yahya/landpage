@@ -283,6 +283,11 @@ export default function Portfolio() {
     style.textContent = `
       *{box-sizing:border-box;margin:0;padding:0;}
       html{scroll-behavior:smooth;}
+      @media (max-width: 700px) {
+  .proj-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
       ::-webkit-scrollbar{width:5px;}
       ::-webkit-scrollbar-track{background:#0d1117;}
       ::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px;}
@@ -336,6 +341,28 @@ export default function Portfolio() {
         .sg{grid-template-columns:1fr!important;}
         .htitle{font-size:30px!important;}
       }
+        .proj-grid,
+.proj-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.proj-card * {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+@media (max-width: 660px) {
+  .proj-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .proj-card {
+    width: 100% !important;
+    overflow: hidden;
+  }
+}
     `;
     document.head.appendChild(style);
 
@@ -650,14 +677,17 @@ Data Science & Web Development specialist building data-driven web applications 
         <div ref={expRef} className={expInView ? "section-glow" : ""}>
           <SectionLabel text="Experience" inView={expInView} />
           <h2 style={{ fontSize: "32px", fontWeight: 700, marginBottom: "2rem", letterSpacing: "-0.02em", ...reveal(expInView, 0.05) }}>Professional journey</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-            {experience.map((exp, i) => (
+          <div className="proj-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>            {experience.map((exp, i) => (
               <div key={i} className="exp-card" style={{
                 background: GH.surface, borderRadius: "8px",
                 padding: "1.25rem 1.5rem",
                 border: `1px solid ${GH.border}`,
                 ...reveal(expInView, 0.08 + i * 0.1),
+                
+                
               }}>
+                
+                
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px", flexWrap: "wrap", gap: "8px" }}>
                   <div>
                     <p style={{ fontSize: "16px", fontWeight: 600, color: GH.text, margin: "0 0 4px" }}>{exp.title}</p>
@@ -809,8 +839,15 @@ Data Science & Web Development specialist building data-driven web applications 
           </p>
 
           {/* ── 2-col repo card grid ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-
+<div
+  className="proj-grid"
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "12px",
+    width: "100%",
+  }}
+>
             {projectFiles.slice(0, 7).map((p, i) => {
               const ext      = extOf(p.fileName);
               const extColor = EXT_COLOR[ext] || GH.textSec;
@@ -871,7 +908,7 @@ Data Science & Web Development specialist building data-driven web applications 
             <a href="https://github.com/yassine-yahya" target="_blank" rel="noopener noreferrer"
               className="proj-card"
               style={{
-                gridColumn: "span 2",
+                gridColumn: window.innerWidth <= 660 ? "span 1" : "span 2",
                 background: "rgba(56,139,253,0.06)",
                 borderRadius: "10px", padding: "1.25rem 1.75rem",
                 display: "flex", alignItems: "center", justifyContent: "space-between",
