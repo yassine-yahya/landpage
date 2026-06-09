@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import qrImage from './assets/Qr.jpeg'
 
+// ── Replace with your landing page URL once deployed ──────────────────────────
+const LANDING_URL = "https://yassine-yahya.github.io/landpage2/";
+// e.g. "https://yassine-yahya.github.io/landing/"
 
 const LinkedInIcon = () => (
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -184,7 +187,7 @@ const languages = [
 const stats = [
   { to: 1200, suffix: "+", label: "Hours of learning"   },
   { to: 1500, suffix: "+", label: "Hours of coding"     },
-  { to: 20,   suffix: "+", label: "Years of experience" },
+  { to: 14,   suffix: "+", label: "Years of experience" },
   { to: 5,    suffix: "",  label: "Languages spoken"    },
 ];
 
@@ -215,6 +218,7 @@ export default function Portfolio() {
   const [projRef,      projInView]      = useInView();
   const [certRef,      certInView]      = useInView();
   const [eduRef,       eduInView]       = useInView();
+  const [ctaRef,       ctaInView]       = useInView(0.2);   // ← NEW
   const [footerRef,    footerInView]    = useInView();
 
   useEffect(() => {
@@ -257,6 +261,7 @@ export default function Portfolio() {
       .stat-block:hover{transform:translateY(-3px);}
       .dnav{display:flex;}
       .hmb{display:none;}
+      .biz-btn:hover{opacity:.82!important;transform:translateY(-2px)!important;}
       @media(max-width:900px){
         .hero-row{flex-direction:column!important;align-items:flex-start!important;gap:2rem!important;}
         .hero-qr{align-self:center!important;align-items:center!important;}
@@ -275,11 +280,13 @@ export default function Portfolio() {
         .cta-r{flex-direction:column!important;align-items:center!important;width:100%;}
         .sec{padding:3rem 1rem!important;}
         .stat-row{flex-direction:column!important;align-items:center!important;}
+        .biz-title{font-size:40px!important;}
       }
       @media(max-width:420px){
         .htitle{font-size:28px!important;}
         .hero-qr img{width:80px!important;height:80px!important;}
         .proj-grid{grid-template-columns:1fr!important;}
+        .biz-title{font-size:32px!important;}
       }
     `;
     document.head.appendChild(style);
@@ -297,7 +304,7 @@ export default function Portfolio() {
   const Divider = () => (
     <div style={{
       height: "1px", maxWidth: "960px", margin: "0 auto",
-      background: "linear-gradient(90deg, transparent 0%, #30363d 20%, #30363d 80%, transparent 100%)",
+      background: "linear-gradient(90deg, transparent 0%, rgba(163,113,247,.25) 20%, rgba(163,113,247,.25) 80%, transparent 100%)",
     }} />
   );
 
@@ -340,6 +347,21 @@ export default function Portfolio() {
               fontWeight: 500, letterSpacing: "0.01em",
             }}>{l}</button>
           ))}
+          {/* ── Business page link in nav ── */}
+          <a href={LANDING_URL} target="_blank" rel="noopener noreferrer" style={{
+            display: "inline-flex", alignItems: "center", gap: "6px",
+            background: "linear-gradient(135deg, rgba(124,58,237,.15), rgba(168,85,247,.15))",
+            border: "1px solid rgba(163,113,247,.35)",
+            color: GH.purple, fontSize: "13px", fontWeight: 600,
+            padding: "5px 14px", borderRadius: "6px", textDecoration: "none",
+            marginLeft: "6px", transition: "background .2s, transform .2s, box-shadow .2s",
+            fontFamily: "inherit", whiteSpace: "nowrap",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background = "linear-gradient(135deg,rgba(124,58,237,.28),rgba(168,85,247,.22))"; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(124,58,237,.3)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.15))"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
+          >
+            Para tu negocio →
+          </a>
         </div>
 
         <button className="hmb" onClick={() => setMenuOpen(!menuOpen)} style={{
@@ -361,6 +383,10 @@ export default function Portfolio() {
               padding: "13px 8px", fontFamily: "inherit",
             }}>{l}</button>
           ))}
+          <a href={LANDING_URL} target="_blank" rel="noopener noreferrer" style={{
+            display: "block", padding: "13px 8px", color: GH.purple,
+            fontSize: "15px", fontWeight: 600, textDecoration: "none",
+          }}>Para tu negocio →</a>
         </div>
       )}
 
@@ -370,15 +396,11 @@ export default function Portfolio() {
         minHeight: "80vh", display: "flex", flexDirection: "column",
         justifyContent: "center", position: "relative",
       }}>
-
-        {/* ── TOP ROW: left content + right QR ── */}
         <div className="hero-row" style={{
           display: "flex", alignItems: "center",
           justifyContent: "space-between", gap: "3rem",
           marginBottom: "3rem",
         }}>
-
-          {/* LEFT: eyebrow + title + subtitle + CTA */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <p className="fi" style={{
               fontSize: "12px", fontWeight: 600, letterSpacing: "0.12em",
@@ -393,10 +415,12 @@ export default function Portfolio() {
               fontSize: "72px", fontWeight: 800, lineHeight: 1.05,
               letterSpacing: "-0.04em", marginBottom: "1.5rem", color: GH.text,
             }}>
-              Turning <span style={{ color: GH.blue }}>data</span>{" "}
-              into decisions.<br />
-              <span style={{ color: GH.purple }}>Code</span> into
-              <span style={{ color: GH.blue }}> solutions.</span>
+              Turning{" "}
+              <span style={{ background:"linear-gradient(135deg,#a371f7,#388bfd)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>data</span>
+              {" "}into decisions.<br />
+              <span style={{ background:"linear-gradient(135deg,#a371f7,#79c0ff)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>Code</span>
+              {" "}into
+              <span style={{ background:"linear-gradient(135deg,#388bfd,#79c0ff)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}> solutions.</span>
             </h1>
 
             <p className="fu1" style={{
@@ -408,12 +432,13 @@ export default function Portfolio() {
 
             <div className="fu2 cta-r" style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
               <button onClick={() => scrollTo("projects")} style={{
-                background: GH.blue, border: "none", cursor: "pointer", color: "#fff",
+                background: "linear-gradient(135deg, #7c3aed, #a371f7)", border: "none", cursor: "pointer", color: "#fff",
                 fontSize: "14px", padding: "9px 24px", borderRadius: "6px",
-                fontFamily: "inherit", fontWeight: 500, transition: "opacity .2s",
+                fontFamily: "inherit", fontWeight: 600,
+                boxShadow: "0 4px 16px rgba(124,58,237,.35)", transition: "opacity .2s, transform .2s",
               }}
-                onMouseEnter={e => e.currentTarget.style.opacity = ".82"}
-                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                onMouseEnter={e => { e.currentTarget.style.opacity = ".85"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = "1";   e.currentTarget.style.transform = "translateY(0)"; }}
               >View projects</button>
               <a href="mailto:yassineyahya50@gmail.com" style={{
                 background: GH.btnBg, border: `1px solid ${GH.btnBorder}`, textDecoration: "none",
@@ -440,7 +465,6 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* RIGHT: QR code */}
           <div className="fu3 hero-qr" style={{
             display: "flex", flexDirection: "column",
             alignItems: "center", gap: "10px", flexShrink: 0,
@@ -448,25 +472,16 @@ export default function Portfolio() {
             <p style={{ fontSize: "10px", color: GH.textMut, textTransform: "uppercase", letterSpacing: "0.08em", margin: 0 }}>
               Scan to connect
             </p>
-            <div style={{
-              padding: "12px", 
-              
-              display: "flex", flexDirection: "column", alignItems: "center", gap: "8px",
-            }}>
-              <img
-                src={qrImage}
-                alt="QR Code — Curriculum Vitae"
-                style={{ width: "140px", height: "140px", display: "block", objectFit: "cover" }}
-              />
+            <div style={{ padding: "12px", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+              <img src={qrImage} alt="QR Code — Curriculum Vitae"
+                style={{ width: "140px", height: "140px", display: "block", objectFit: "cover" }} />
               <span style={{ fontSize: "10px", color: GH.textMut, fontFamily: "'Space Mono', monospace" }}>
                 Curriculum Vitae
               </span>
             </div>
           </div>
+        </div>
 
-        </div>{/* end hero-row */}
-
-        {/* ── STATS ── */}
         <div ref={heroStatsRef} className="fu3 stat-row" style={{
           display: "flex", gap: "12px", flexWrap: "wrap",
           width: "100%", justifyContent: "center", marginBottom: "1.5rem",
@@ -477,8 +492,14 @@ export default function Portfolio() {
               display: "flex", flexDirection: "column",
               justifyContent: "center", alignItems: "center",
               borderRadius: "10px", background: GH.surface,
+              border: "1px solid rgba(163,113,247,.18)",
+              boxShadow: "0 0 0 0 rgba(163,113,247,0)",
+              transition: "transform .2s, box-shadow .2s, border-color .2s",
               ...reveal(heroStatsInView, i * 0.1),
-            }}>
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(163,113,247,.5)"; e.currentTarget.style.boxShadow = "0 0 24px rgba(124,58,237,.18)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(163,113,247,.18)"; e.currentTarget.style.boxShadow = "0 0 0 0 rgba(163,113,247,0)"; }}
+            >
               <p style={{ fontSize: "28px", fontWeight: 400, color: GH.text, margin: "0 0 6px", fontFamily: "'Space Mono', monospace" }}>
                 <Counter to={s.to} suffix={s.suffix} inView={heroStatsInView} duration={1200 + i * 100} />
               </p>
@@ -487,7 +508,6 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Portfolio updating banner */}
         <div className="fu4" style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "10px",
@@ -501,7 +521,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <div className="scroll-down" onClick={() => scrollTo("about")} style={{
             display: "flex", flexDirection: "column", alignItems: "center", gap: "4px",
@@ -511,7 +530,6 @@ export default function Portfolio() {
             <span style={{ color: GH.textMut, fontSize: "18px" }}>↓</span>
           </div>
         </div>
-
       </section>
 
       <Divider />
@@ -570,8 +588,8 @@ export default function Portfolio() {
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                   {g.tags.map((tag, ti) => (
                     <span key={tag}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = GH.textSec; e.currentTarget.style.color = GH.text; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = GH.border; e.currentTarget.style.color = GH.textSec; }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(163,113,247,.55)"; e.currentTarget.style.color = GH.purple; e.currentTarget.style.background = "rgba(163,113,247,.08)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = GH.border; e.currentTarget.style.color = GH.textSec; e.currentTarget.style.background = "transparent"; }}
                       style={{
                         fontSize: "14px", padding: "7px 18px", borderRadius: "24px",
                         background: "transparent", color: GH.textSec,
@@ -787,11 +805,80 @@ export default function Portfolio() {
 
       <Divider />
 
+      {/* ── BIG BUSINESS CTA ─────────────────────────────────────────────────── */}
+      <section style={{
+        padding: "7rem 1.5rem",
+        background: `linear-gradient(160deg, #0d1117 0%, #110d1f 60%, #0d1117 100%)`,
+        borderTop: `1px solid ${GH.border}`,
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        {/* Purple glow top */}
+        <div style={{ position:"absolute", top:"-20%", left:"50%", transform:"translateX(-50%)", width:"700px", height:"400px", borderRadius:"50%", background:"radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 65%)", pointerEvents:"none", filter:"blur(70px)" }}/>
+        {/* Purple glow bottom right */}
+        <div style={{ position:"absolute", bottom:"-20%", right:"-10%", width:"500px", height:"400px", borderRadius:"50%", background:"radial-gradient(circle,rgba(163,113,247,.08) 0%,transparent 65%)", pointerEvents:"none", filter:"blur(70px)" }}/>
+
+        <div ref={ctaRef} style={{ maxWidth: "800px", margin: "0 auto", position: "relative" }}>
+
+          {/* Label */}
+          <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", marginBottom:"2rem",
+            background:"rgba(163,113,247,.1)", border:"1px solid rgba(163,113,247,.28)",
+            padding:"6px 16px", borderRadius:"20px", ...reveal(ctaInView, 0.0) }}>
+            <span style={{ width:"7px", height:"7px", borderRadius:"50%", background:GH.purple, display:"inline-block", boxShadow:"0 0 8px rgba(163,113,247,.6)" }}/>
+            <span style={{ fontSize:"12px", fontWeight:600, letterSpacing:"0.1em", textTransform:"uppercase", color:GH.purple }}>
+              For businesses
+            </span>
+          </div>
+
+          {/* Big title */}
+          <h2 className="biz-title" style={{
+            fontSize: "68px", fontWeight: 800, lineHeight: 1.05,
+            letterSpacing: "-0.04em", color: GH.text, marginBottom: "1.75rem",
+            ...reveal(ctaInView, 0.08),
+          }}>
+            You need a website<br />
+            or digital solutions?<br />
+            <span style={{ background:"linear-gradient(135deg,#a371f7,#79c0ff)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>Let's build something</span><br />
+            <span style={{ background:"linear-gradient(135deg,#a371f7,#79c0ff)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>for your business.</span>
+          </h2>
+
+          {/* Sub */}
+          <p style={{
+            fontSize: "18px", color: GH.textSec, maxWidth: "500px",
+            margin: "0 auto 3rem", lineHeight: 1.75, fontWeight: 300,
+            ...reveal(ctaInView, 0.16),
+          }}>
+            From a landing page to a full web application — I handle everything from design to deployment. Professional, fast, and in 4 languages.
+          </p>
+
+          {/* CTA button */}
+          <div style={{ ...reveal(ctaInView, 0.24) }}>
+            <a
+              href={LANDING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="biz-btn"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "10px",
+                background: "linear-gradient(135deg, #7c3aed, #a855f7)", color: "#fff",
+                padding: "16px 42px", borderRadius: "8px",
+                fontWeight: 800, fontSize: "17px",
+                fontFamily: "inherit", textDecoration: "none",
+                boxShadow: "0 8px 36px rgba(124,58,237,.4)",
+                transition: "opacity .2s, transform .2s",
+              }}
+            >
+              See my services for businesses →
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER / CONTACT ── */}
       <section id="contact" className="sec" style={{ padding: "4rem 1.5rem 2.5rem", maxWidth: "960px", margin: "0 auto" }}>
         <div ref={footerRef}>
           <div className="fg" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", gap: "2rem", marginBottom: "2.5rem" }}>
-
             <div style={{ ...reveal(footerInView, 0.0) }}>
               <div style={{ display: "flex", alignItems: "center", gap: "2px", marginBottom: "10px" }}>
                 <span style={{ fontSize: "17px", fontWeight: 700, color: GH.text }}>yassine</span>
@@ -815,7 +902,6 @@ export default function Portfolio() {
                   }}>{s.icon}</a>
                 ))}
               </div>
-              {/* QR Code in footer */}
               <div style={{ marginTop: "20px" }}>
                 <p style={{ fontSize: "10px", color: GH.textMut, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>Scan to connect</p>
                 <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "10px" }}>
@@ -834,6 +920,10 @@ export default function Portfolio() {
                   fontFamily: "inherit", marginBottom: "5px", textAlign: "left", transition: "color .2s",
                 }}>{l}</button>
               ))}
+              <a href={LANDING_URL} target="_blank" rel="noopener noreferrer" style={{
+                display: "block", fontSize: "13px", color: GH.purple,
+                marginTop: "8px", textDecoration: "none", fontWeight: 600,
+              }}>Para tu negocio →</a>
             </div>
 
             <div style={{ ...reveal(footerInView, 0.2) }}>
